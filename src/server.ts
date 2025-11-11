@@ -12,8 +12,8 @@ import { BaseOryOptions, OryProvider } from '@ory/mcp-oauth-provider';
 config();
 
 // Validate required environment variables
-const oryHydraAdminUrl = process.env.ORY_HYDRA_ADMIN_URL || "http://localhost:4445";
-const oryHydraPublicUrl = process.env.ORY_HYDRA_PUBLIC_URL || "https://auth.staging.bondling.org";
+const oryHydraAdminUrl = process.env.ORY_HYDRA_ADMIN_URL;
+const oryHydraPublicUrl = process.env.ORY_HYDRA_PUBLIC_URL;
 if (!oryHydraAdminUrl || !oryHydraPublicUrl) {
 throw new Error('ORY_HYDRA_ADMIN_URL and ORY_HYDRA_PUBLIC_URL must be set');
 }
@@ -196,7 +196,9 @@ app.post('/messages', bearerAuthMiddleware, async (req: Request, res: Response) 
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+const host = process.env.HOST || "localhost"
+
+app.listen(port as number, host, () => {
   console.log(`Backwards compatible MCP server listening on port ${port}`);
   console.log(`
 ==============================================
